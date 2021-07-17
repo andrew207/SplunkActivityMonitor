@@ -1,0 +1,6 @@
+﻿1>------ Rebuild All started: Project: SplunkActivityMonitor, Configuration: Release Any CPU ------
+1>  SplunkActivityMonitor -> C:\Users\andre\source\repos\SplunkActivityMonitor\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.exe
+1>  Running Code Analysis...
+1>MSBUILD : warning CA2101: Microsoft.Globalization : To reduce security risk, marshal parameter 'text' as Unicode, by setting DllImport.CharSet to CharSet.Unicode, or by explicitly marshaling the parameter as UnmanagedType.LPWStr. If you need to marshal this string as ANSI or system-dependent, specify MarshalAs explicitly, and set BestFitMapping=false; for added security, also set ThrowOnUnmappableChar=true.
+1>  Code Analysis Complete -- 0 error(s), 1 warning(s)
+========== Rebuild All: 1 succeeded, 0 failed, 0 skipped ==========

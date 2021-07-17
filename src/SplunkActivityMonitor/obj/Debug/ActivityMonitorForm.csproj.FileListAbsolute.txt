@@ -1,0 +1,8 @@
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\bin\Debug\ActivityMonitorForm.exe
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\bin\Debug\ActivityMonitorForm.pdb
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.csprojResolveAssemblyReference.cache
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.Properties.Resources.resources
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.csproj.GenerateResource.cache
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.csproj.CoreCompileInputs.cache
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.exe
+C:\Users\andre\source\repos\ActivityMonitorForm\ActivityMonitorForm\obj\Debug\ActivityMonitorForm.pdb

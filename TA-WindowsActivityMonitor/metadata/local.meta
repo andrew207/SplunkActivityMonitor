@@ -1,0 +1,34 @@
+[lookups/software.csv]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.3
+modtime = 1524471729.885574900
+
+[transforms/software]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.3
+modtime = 1524471836.429246200
+
+[props/WindowsActivityMonitor%3AActivity/EXTRACT-filename]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.3
+modtime = 1524619877.089184100
+
+[macros/activity_combine]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.3
+modtime = 1524649965.502938400
+
+[macros/focus_rank]
+access = read : [ * ], write : [ admin ]
+export = system
+owner = admin
+version = 7.0.3
+modtime = 1524650040.748011200
