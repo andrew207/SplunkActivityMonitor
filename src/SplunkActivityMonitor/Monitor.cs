@@ -1,6 +1,7 @@
 ﻿namespace SplunkActivityMonitor
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Diagnostics;
     using System.Management;
@@ -17,8 +18,10 @@
         private const uint EVENT_SYSTEM_FOREGROUND = 3;
         private const string Format = "yyyy-MM-dd HH:mm:ss.fff";
 
-        // Web requester
-        public WebReq w;
+        // Web requester for sending data to Splunk
+        public static WebReq w;
+        private USBWatcher u;
+        private BackgroundWorker bgwDriveDetector;
 
         // Required to map hook to function
         internal delegate void WinEventDelegate(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime);
@@ -112,7 +115,7 @@
 
             if (Program.DebugMode)
                 Program.WriteToFile(res);
-            this.w.StartWebRequest(res, true, false);
+            w.StartWebRequest(res, true, false);
         }
 
         /// <summary>
@@ -130,22 +133,18 @@
         private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            Console.WriteLine("Device Removed: {0} {1} {2}"
-                , instance.Properties["Caption"].Value.ToString()
-                , instance.Properties["Description"].Value.ToString()
-                , instance.Properties["DeviceID"].Value.ToString());
 
-            string res = "\"action\": \"Device Removed\", \"caption\": \""
+            string res = "\"action\": \"Device Inserted\", \"caption\": \""
                 + instance.Properties["Caption"].Value.ToString() + "\""
                 + ", \"description\": \"" + instance.Properties["Description"].Value.ToString() + "\""
                 + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\"";
             res = res.Replace(@"\", @"\\");
             Debug.WriteLine(res);
-            this.w.StartWebRequest(res, false, true);
+            w.StartWebRequest(res, false, true);
 
             // Wait a second for disk to mount then update global list
             System.Threading.Thread.Sleep(1000);
-            this.w.StartWebRequest(Program.UpdateDisks(), false, true);
+            UpdateMounts();
         }
 
         /// <summary>
@@ -154,14 +153,17 @@
         private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-            Console.WriteLine("Device Removed: {0} {1} {2}"
-                , instance.Properties["Caption"].Value.ToString()
-                , instance.Properties["Description"].Value.ToString()
-                , instance.Properties["DeviceID"].Value.ToString());
+            string res = "\"action\": \"Device Removed\", \"caption\": \""
+                + instance.Properties["Caption"].Value.ToString() + "\""
+                + ", \"description\": \"" + instance.Properties["Description"].Value.ToString() + "\""
+                + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\"";
+            res = res.Replace(@"\", @"\\");
+            Debug.WriteLine(res);
+            w.StartWebRequest(res, false, true);
 
             // Wait a second for disk to mount then update global list
             System.Threading.Thread.Sleep(1000);
-            this.w.StartWebRequest(Program.UpdateDisks(), false, true);
+            UpdateMounts();
         }
 
         /// <summary>
@@ -186,20 +188,46 @@
             Dispose(false);
         }
 
-        public Monitor()
+        /// <summary>
+        /// Updates mounted disk list by calling global mount checker then passing results to usb watcher
+        /// Also sends full list of monitored disks to Splunk
+        /// </summary>
+        public void UpdateMounts()
+        {
+            List<string> diskList = Program.UpdateDisks();
+
+            // The last index of the list contains a JSON string of all the mounts to be monitored, we send this to Splunk then remove it.
+            int i = diskList.Count - 1;
+            Debug.WriteLine(diskList[i]);
+            w.StartWebRequest(diskList[i], false, true);
+            diskList.RemoveAt(i);
+
+            // Now update the USB Watcher
+            u.SetMounts(diskList);
+        }
+
+        public Monitor(bool EnableForegroundWindowMonitoring, bool EnableUSBMonitoring)
         {
             // Init HEC link
-            this.w = new WebReq();
+            w = new WebReq();
 
             // Start ForegroundWindowHook
-            StartHook();
+            if (EnableForegroundWindowMonitoring)
+                StartHook();
 
             // Set up USB monitor
-            BackgroundWorker bgwDriveDetector = new BackgroundWorker();
-            bgwDriveDetector.DoWork += this.DoWork;
-            bgwDriveDetector.RunWorkerAsync();
-            bgwDriveDetector.WorkerReportsProgress = true;
-            bgwDriveDetector.WorkerSupportsCancellation = true;
+            if (EnableUSBMonitoring)
+            {
+                bgwDriveDetector = new BackgroundWorker();
+                bgwDriveDetector.DoWork += this.DoWork;
+                bgwDriveDetector.RunWorkerAsync();
+                bgwDriveDetector.WorkerReportsProgress = true;
+                bgwDriveDetector.WorkerSupportsCancellation = true;
+
+                // Set up FS Watchers
+                u = new USBWatcher();
+                UpdateMounts();
+            }
         }
 
         // implement IDisposable to clean unmanaged resources, i.e. our hook 

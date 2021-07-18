@@ -70,6 +70,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="USBWatcher.cs" />
     <Compile Include="WebReq.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

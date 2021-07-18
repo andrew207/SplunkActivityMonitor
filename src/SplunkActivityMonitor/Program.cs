@@ -14,7 +14,7 @@ namespace SplunkActivityMonitor
     {
         private static string Hostname = Dns.GetHostName();
         public static string SplunkURI, HECToken, TargetIndex, TargetSourcetypeForegroundWindowChange, TargetSourcetypeUSBChange, DebugLogTarget;
-        public static bool DebugMode, AllowBadCerts;
+        public static bool DebugMode, AllowBadCerts, EnableForegroundWindowChangeMonitoring, EnableUSBMonitoring;
 
         public static string hostname => Hostname;
 
@@ -25,13 +25,8 @@ namespace SplunkActivityMonitor
         public static bool IsProcessOpen(string name)
         {
             foreach (Process clsProcess in Process.GetProcesses())
-            {
                 if (clsProcess.ProcessName.Contains(name))
-                {
                     return true;
-                }
-            }
-
             return false;
         }
 
@@ -43,10 +38,8 @@ namespace SplunkActivityMonitor
         {
             try
             {
-                using (StreamWriter sw = File.AppendText(DebugLogTarget))
-                {
-                    sw.WriteLine(res);
-                }
+                using StreamWriter sw = File.AppendText(DebugLogTarget);
+                sw.WriteLine(res);
             }
             catch (Exception) { }
         }
@@ -71,9 +64,10 @@ namespace SplunkActivityMonitor
         /// <summary>
         /// Places all removable devices into an array
         /// </summary>
-        public static string UpdateDisks()
+        public static List<string> UpdateDisks()
         {
             StringBuilder sb = new StringBuilder("\"name\": \"Removable Devices Reloaded\", \"drives\": [");
+            List<string> r = new List<string>();
             int i = 0;
             foreach (var drive in DriveInfo.GetDrives())
             {
@@ -82,17 +76,25 @@ namespace SplunkActivityMonitor
                     double capacity = drive.TotalSize;
                     string label = drive.VolumeLabel;
                     string root = drive.RootDirectory.FullName;
+                    string name = drive.Name.ToString();
 
                     Debug.WriteLine("Monitoring {0} Drive: {1}", drive.DriveType, drive.Name);
                     string pre = "";
                     if (i != 0) pre = ","; 
-                    sb.Append((pre += "{\"mount\": \"" + drive.Name.ToString() + "\", \"label\": \"" + label + "\", \"root\": \"" + root + "\", \"capacity\": \"" + capacity + "\", \"free\": \"" + free + "\" }").Replace(@"\", @"\\"));
+                    sb.Append((pre += "{\"mount\": \"" + name + "\", \"label\": \"" + label + "\", \"root\": \"" + root + "\", \"capacity\": \"" + capacity + "\", \"free\": \"" + free + "\" }").Replace(@"\", @"\\"));
+
+                    string target = root;
+                    if (string.IsNullOrEmpty(target))
+                        target = name;
+
+                    r.Add(target);
                     i++;
                 }
             }
 
             sb.Append(']');
-            return sb.ToString();
+            r.Add(sb.ToString());
+            return r;
         }
 
         [STAThread]
@@ -110,9 +112,11 @@ namespace SplunkActivityMonitor
                 }
             }
 
-            // Read app.config
+            // Read app.config / set defaults if not present
             AllowBadCerts = false;
             DebugMode = false;
+            EnableForegroundWindowChangeMonitoring = true;
+            EnableUSBMonitoring = true;
             SplunkURI = ReadSetting("SplunkURI") ?? "https://localhost:8088/services/collector/event";
             HECToken = ReadSetting("HECToken") ?? "7b179726-daab-4122-8ce8-364a5cd724d3";
             TargetIndex = ReadSetting("TargetIndex") ?? "main";
@@ -121,37 +125,36 @@ namespace SplunkActivityMonitor
             DebugLogTarget = ReadSetting("DebugLogTarget") ?? @Environment.ExpandEnvironmentVariables("%ProgramW6432%") + @"\Splunk\etc\apps\TA-WindowsActivityMonitor\spool\Monitor - CurrentActivity.log";
             _ = bool.TryParse(ReadSetting("DebugMode"), out DebugMode);
             _ = bool.TryParse(ReadSetting("AlowBadCerts"), out AllowBadCerts);
+            _ = bool.TryParse(ReadSetting("EnableForegroundWindowChangeMonitoring"), out EnableForegroundWindowChangeMonitoring);
+            _ = bool.TryParse(ReadSetting("EnableUSBMonitoring"), out EnableUSBMonitoring);
 
             string cfg = "New Config: " +
                 "SplunkURI=\"" + SplunkURI +
                 "\" HECToken=\"" + HECToken +
                 "\" Debug=\"" + DebugMode +
                 "\" TargetIndex=\"" + TargetIndex +
+                "\" EnableForegroundWindowChangeMonitoring=\"" + EnableForegroundWindowChangeMonitoring +
+                "\" EnableUSBMonitoring=\"" + EnableUSBMonitoring +
                 "\" TargetSourcetypeUSB=\"" + TargetSourcetypeUSBChange +
                 "\" TargetSourcetypeForeground=\"" + TargetSourcetypeForegroundWindowChange +
                 "\" AllowBadCerts=\"" + AllowBadCerts +
                 "\" DebugLogTarget=\"" + DebugLogTarget + "\"";
 
+            // Allow all self-signed / bad SSL certs AND enforce better SSL standards not default in Windows (remove sslv3, allow tls1.2).
             if (AllowBadCerts)
             {
-                Debug.WriteLine("Allowing all SSL certs...");
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
+                ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             }
-
-            // Allow more modern SSL that Windows supports by default (and explicitely disallow sslv3)
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
 
             if (DebugMode)
                 WriteToFile(cfg);
             Debug.WriteLine(cfg);
 
-            // Check for non-system disks
-            UpdateDisks();
-
             // Start form
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(mainForm: new Form1());
+            Application.Run(mainForm: new Form1(EnableForegroundWindowChangeMonitoring, EnableUSBMonitoring));
         }
     }
 }

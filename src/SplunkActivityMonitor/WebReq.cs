@@ -41,8 +41,6 @@ namespace SplunkActivityMonitor
         /// </summary>
         private void GetRequestStreamCallbackFG(IAsyncResult asynchronousResult)
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-
             string PostData = "{ \"host\": \"" + Program.hostname + "\"," +
                               "\"source\": \"SplunkActivityMonitor.exe\"," +
                               "\"sourcetype\": \"" + Program.TargetSourcetypeForegroundWindowChange + "\"," +
@@ -51,7 +49,7 @@ namespace SplunkActivityMonitor
                                 res +
                               "}}";
 
-            doReq(asynchronousResult, request, PostData);
+            doReq(asynchronousResult, (HttpWebRequest)asynchronousResult.AsyncState, PostData);
         }
 
         /// <summary>
@@ -59,8 +57,6 @@ namespace SplunkActivityMonitor
         /// </summary>
         private void GetRequestStreamCallbackUSB(IAsyncResult asynchronousResult)
         {
-            HttpWebRequest request = (HttpWebRequest)asynchronousResult.AsyncState;
-
             string PostData = "{ \"host\": \"" + Program.hostname + "\"," +
                               "\"source\": \"SplunkActivityMonitor.exe\"," +
                               "\"sourcetype\": \"" + Program.TargetSourcetypeUSBChange + "\"," +
@@ -69,7 +65,7 @@ namespace SplunkActivityMonitor
                                 res +
                               "}}";
 
-            doReq(asynchronousResult, request, PostData);
+            doReq(asynchronousResult, (HttpWebRequest)asynchronousResult.AsyncState, PostData);
         }
 
         /// <summary>
@@ -120,9 +116,9 @@ namespace SplunkActivityMonitor
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Exception during web request - " + e.StackTrace);
+                Debug.WriteLine("Exception during web request callback - " + e.StackTrace);
                 if (Program.DebugMode)
-                    Program.WriteToFile("Exception during web request - " + e.ToString());
+                    Program.WriteToFile("Exception during web request callback - " + e.ToString());
             }
         }
     }
