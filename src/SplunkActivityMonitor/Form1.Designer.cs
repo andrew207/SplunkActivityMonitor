@@ -1,4 +1,6 @@
-﻿namespace SplunkActivityMonitor
+﻿using System.ComponentModel;
+
+namespace SplunkActivityMonitor
 {
     partial class Form1
     {
@@ -60,7 +62,7 @@
 
         #endregion
 
-        SplunkActivityMonitor.Program.Monitor m = new SplunkActivityMonitor.Program.Monitor();
+        SplunkActivityMonitor.Monitor m = new SplunkActivityMonitor.Monitor();
     }
 }
 
