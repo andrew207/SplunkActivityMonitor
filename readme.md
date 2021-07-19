@@ -9,6 +9,7 @@ The associated Splunk TA works in the following way:
 
 ## USB Monitoring
 USB device insertion and removal is monitored via the __InstanceCreationEvent and __InstanceDeletionEvent objects within WQL, with watching implemented with a ManagementEventWatcher. Any time a USB is inserted or removed the application logs some metadata. An example of the output is:
+
      {
        action: Device Inserted
        caption: USB Mass Storage Device
@@ -18,6 +19,7 @@ USB device insertion and removal is monitored via the __InstanceCreationEvent an
     } 
 
 Separately, file modifications occurring on the USB are also logged. This application will only log filesystem changes that occur on the USB device to achieve data loss prevention goals. This is implemented with a FileSystemMonitor, which allows us to actively listen for new files, changed files, deleted files, and renamed files. An example of the output for a renamed file is:
+
     {
       action: Renamed
       fullpath: H:\myNewFile
@@ -31,6 +33,7 @@ Separately, file modifications occurring on the USB are also logged. This applic
 ## Foreground Window Monitoring
 Application utilises SetWinEventHook to write an event to Splunk on the EVENT_SYSTEM_FOREGROUND Windows event. 
 An example of the output is:
+
      {
        directory: C:\Program Files\Mozilla Firefox\firefox.exe
        name: Firefox
