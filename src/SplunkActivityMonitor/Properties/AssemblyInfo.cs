@@ -1,17 +1,16 @@
-﻿using System.Resources;
-using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using System.Reflection;
+using System.Resources;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SplunkActivityMonitor")]
-[assembly: AssemblyDescription("Tracks foreground window changes and reports activity to Splunk")]
+[assembly: AssemblyDescription("Tracks things and reports to Splunk")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Rivium")]
+[assembly: AssemblyCompany("Rivium [Andrew Tunnecliffe] / Tesserent")]
 [assembly: AssemblyProduct("SplunkActivityMonitor")]
-[assembly: AssemblyCopyright("Copyright Rivium ©  2018")]
+[assembly: AssemblyCopyright("Copyright Rivium ©  2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -33,7 +32,7 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.1.3")]
-[assembly: AssemblyFileVersion("1.0.1.3")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]
 [assembly: NeutralResourcesLanguage("")]
 

@@ -1,4 +1,6 @@
-﻿namespace SplunkActivityMonitor
+﻿using System.ComponentModel;
+
+namespace SplunkActivityMonitor
 {
     partial class Form1
     {
@@ -6,6 +8,8 @@
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
+
+        private SplunkActivityMonitor.Monitor m;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -17,8 +21,8 @@
             {
                 components.Dispose();
             }
-            base.Dispose(disposing);
             m.Dispose();
+            base.Dispose(disposing);
         }
 
         // Force invisible window
@@ -37,7 +41,7 @@
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
         /// </summary>
-        private void InitializeComponent()
+        private void InitializeComponent(bool EnableForegroundWindowMonitoring, bool EnableUSBMonitoring)
         {
             this.SuspendLayout();
             // 
@@ -55,12 +59,10 @@
             this.ShowInTaskbar = false;
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
-
+            m = new SplunkActivityMonitor.Monitor(EnableForegroundWindowMonitoring, EnableUSBMonitoring);
         }
 
         #endregion
-
-        SplunkActivityMonitor.Program.Monitor m = new SplunkActivityMonitor.Program.Monitor();
     }
 }
 
