@@ -28,7 +28,7 @@ Separately, file modifications occurring on the USB are also logged. This applic
       oldpath: H:\myOldFile
       sha256: DDD4A2BA44C312AA4F2C7506A388CC2CA7F1CAEC60C3C6D80ED8A9F0B43D529C
       time: 2021-07-19 12:28:58.553
-   } 
+    } 
 
 ## Foreground Window Monitoring
 Application utilises SetWinEventHook to write an event to Splunk on the EVENT_SYSTEM_FOREGROUND Windows event. 
