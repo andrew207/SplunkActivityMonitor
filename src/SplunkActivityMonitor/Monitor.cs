@@ -133,11 +133,13 @@
         private void DeviceInsertedEvent(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
-
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
             string res = "\"action\": \"Device Inserted\", \"caption\": \""
                 + instance.Properties["Caption"].Value.ToString() + "\""
                 + ", \"description\": \"" + instance.Properties["Description"].Value.ToString() + "\""
-                + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\"";
+                + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\""
+                + ", \"time\": \"" + sqlFormattedDate + "\""; ;
             res = res.Replace(@"\", @"\\");
             Debug.WriteLine(res);
             w.StartWebRequest(res, false, true);
@@ -153,10 +155,13 @@
         private void DeviceRemovedEvent(object sender, EventArrivedEventArgs e)
         {
             ManagementBaseObject instance = (ManagementBaseObject)e.NewEvent["TargetInstance"];
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
             string res = "\"action\": \"Device Removed\", \"caption\": \""
                 + instance.Properties["Caption"].Value.ToString() + "\""
                 + ", \"description\": \"" + instance.Properties["Description"].Value.ToString() + "\""
-                + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\"";
+                + ", \"deviceid\": \"" + instance.Properties["DeviceID"].Value.ToString() + "\""
+                + ", \"time\": \"" + sqlFormattedDate + "\""; ;
             res = res.Replace(@"\", @"\\");
             Debug.WriteLine(res);
             w.StartWebRequest(res, false, true);
@@ -219,7 +224,7 @@
             if (EnableUSBMonitoring)
             {
                 bgwDriveDetector = new BackgroundWorker();
-                bgwDriveDetector.DoWork += this.DoWork;
+                bgwDriveDetector.DoWork += DoWork;
                 bgwDriveDetector.RunWorkerAsync();
                 bgwDriveDetector.WorkerReportsProgress = true;
                 bgwDriveDetector.WorkerSupportsCancellation = true;
@@ -245,6 +250,7 @@
         {
             if (disposing)
             {
+                bgwDriveDetector.Dispose();
                 NativeMethods.UnhookWinEvent(foregroundhook);
                 NativeMethods.CoUninitialize();
             }

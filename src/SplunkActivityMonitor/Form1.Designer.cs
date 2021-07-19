@@ -21,8 +21,8 @@ namespace SplunkActivityMonitor
             {
                 components.Dispose();
             }
-            base.Dispose(disposing);
             m.Dispose();
+            base.Dispose(disposing);
         }
 
         // Force invisible window

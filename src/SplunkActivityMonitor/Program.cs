@@ -3,11 +3,11 @@
 namespace SplunkActivityMonitor
 {
     using System;
-    using System.Diagnostics;
+    using System.Collections.Generic;
     using System.Configuration;
+    using System.Diagnostics;
     using System.IO;
     using System.Net;
-    using System.Collections.Generic;
     using System.Text;
 
     public static partial class Program
@@ -15,6 +15,7 @@ namespace SplunkActivityMonitor
         private static string Hostname = Dns.GetHostName();
         public static string SplunkURI, HECToken, TargetIndex, TargetSourcetypeForegroundWindowChange, TargetSourcetypeUSBChange, DebugLogTarget;
         public static bool DebugMode, AllowBadCerts, EnableForegroundWindowChangeMonitoring, EnableUSBMonitoring;
+        private const string Format = "yyyy-MM-dd HH:mm:ss.fff";
 
         public static string hostname => Hostname;
 
@@ -71,17 +72,21 @@ namespace SplunkActivityMonitor
             int i = 0;
             foreach (var drive in DriveInfo.GetDrives())
             {
-                if (drive.DriveType == DriveType.Removable) {
+                if (drive.DriveType == DriveType.Removable)
+                {
                     double free = drive.TotalFreeSpace;
                     double capacity = drive.TotalSize;
                     string label = drive.VolumeLabel;
                     string root = drive.RootDirectory.FullName;
                     string name = drive.Name.ToString();
 
+                    DateTime myDateTime = DateTime.Now;
+                    string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
+
                     Debug.WriteLine("Monitoring {0} Drive: {1}", drive.DriveType, drive.Name);
                     string pre = "";
-                    if (i != 0) pre = ","; 
-                    sb.Append((pre += "{\"mount\": \"" + name + "\", \"label\": \"" + label + "\", \"root\": \"" + root + "\", \"capacity\": \"" + capacity + "\", \"free\": \"" + free + "\" }").Replace(@"\", @"\\"));
+                    if (i != 0) pre = ",";
+                    sb.Append((pre += "{\"time\": \"" + sqlFormattedDate + "\", \"mount\": \"" + name + "\", \"label\": \"" + label + "\", \"root\": \"" + root + "\", \"capacity\": \"" + capacity + "\", \"free\": \"" + free + "\" }").Replace(@"\", @"\\"));
 
                     string target = root;
                     if (string.IsNullOrEmpty(target))

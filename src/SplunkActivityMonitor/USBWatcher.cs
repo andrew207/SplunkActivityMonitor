@@ -12,6 +12,7 @@ namespace SplunkActivityMonitor
     {
         private List<string> mounts;
         private List<FileSystemWatcher> watchers;
+        private const string Format = "yyyy-MM-dd HH:mm:ss.fff";
 
         /// <summary>
         /// Creates individual FileSystemWatchers for each mount delivered. 
@@ -85,6 +86,8 @@ namespace SplunkActivityMonitor
             // 1. Wait for a file operation to complete, or we get "file in use" error
             // 2. Side-benefit of not being able to get hashes of files that are huge (this would use too much compute)
             string[] m = new string[] { "unable to compute", "unable to compute" };
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
             Thread.Sleep(3000);
             try { m = GetHashes(e.FullPath); }
             catch (IOException) { }
@@ -92,7 +95,8 @@ namespace SplunkActivityMonitor
                 + ", \"fullpath\": \"" + e.FullPath + "\""
                 + ", \"name\": \"" + e.Name + "\""
                 + ", \"md5\": \"" + m[1] + "\""
-                + ", \"sha256\": \"" + m[0] + "\"";
+                + ", \"sha256\": \"" + m[0] + "\""
+                + ", \"time\": \"" + sqlFormattedDate + "\"";
             res = res.Replace(@"\", @"\\");
             Debug.WriteLine(res);
             Monitor.w.StartWebRequest(res, false, true);
@@ -101,6 +105,8 @@ namespace SplunkActivityMonitor
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
             string[] m = new string[] { "unable to compute", "unable to compute" };
+            DateTime myDateTime = DateTime.Now;
+            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
             Thread.Sleep(3000);
             try { m = GetHashes(e.FullPath); }
             catch (IOException) { }
@@ -109,7 +115,8 @@ namespace SplunkActivityMonitor
                 + ", \"fullpath\": \"" + e.FullPath + "\""
                 + ", \"name\": \"" + e.Name + "\""
                 + ", \"md5\": \"" + m[1] + "\""
-                + ", \"sha256\": \"" + m[0] + "\"";
+                + ", \"sha256\": \"" + m[0] + "\""
+                + ", \"time\": \"" + sqlFormattedDate + "\"";
             res = res.Replace(@"\", @"\\");
             Debug.WriteLine(res);
             Monitor.w.StartWebRequest(res, false, true);
