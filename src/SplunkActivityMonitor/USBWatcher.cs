@@ -28,12 +28,9 @@ namespace SplunkActivityMonitor
                 {
                     FileSystemWatcher w = new FileSystemWatcher(mount);
                     w.NotifyFilter = NotifyFilters.Attributes
-                                         | NotifyFilters.CreationTime
                                          | NotifyFilters.DirectoryName
                                          | NotifyFilters.FileName
-                                         | NotifyFilters.LastAccess
                                          | NotifyFilters.LastWrite
-                                         | NotifyFilters.Security
                                          | NotifyFilters.Size;
                     w.Changed += OnAction;
                     w.Created += OnAction;

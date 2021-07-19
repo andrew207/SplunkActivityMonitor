@@ -1,0 +1,8 @@
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.exe.config
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.exe
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.pdb
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.Form1.resources
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.Properties.Resources.resources
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.GenerateResource.cache
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.exe
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.pdb
