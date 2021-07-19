@@ -53,5 +53,8 @@ You can configure the tool using SplunkActivityMonitor.exe.config. This XML file
 * Allow bad SSL certs 
 * Enable debug logging
 
+## Uninstalling / Removal
+If you are running the standalone binary, just kill the task. If you have used the Splunk TA, you'll need to delete the scheduled task as well as kill the task and uninstalling the TA. 
+
 ## Contact
 andrew@atunnecliffe.com
