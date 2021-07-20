@@ -66,12 +66,12 @@ namespace SplunkActivityMonitor
             string ssha = "unable to compute";
             string smd5 = "unable to compute";
             using (var sha = SHA256.Create())
-            using (var md5 = MD5.Create())
+            using (var sh = SHA1.Create())
             {
                 using (var stream = File.OpenRead(input))
                 {
                     ssha = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "");
-                    smd5 = BitConverter.ToString(md5.ComputeHash(stream)).Replace("-", "");
+                    smd5 = BitConverter.ToString(sh.ComputeHash(stream)).Replace("-", "");
                 }
             }
             return new string[] { ssha, smd5 };
