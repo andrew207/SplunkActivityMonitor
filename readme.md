@@ -1,11 +1,8 @@
 # SplunkActivityMonitor
 
-This application is capable of monitoring Foreground Window Changes and USB device insert/removal as well as device->USB file transfers. It will then report those events to Splunk (or any other web server) via the HTTP Event Collector.
+This application is capable of monitoring Foreground Window Changes and USB device insert/removal as well as device->USB file transfers and logging them to Splunk. 
 
-The associated Splunk TA works in the following way:
-* The application will start every 10 minutes via Task Scheduler for persistence. The application has logic that will kill it immediately if another instance is already running.
-* The application is run as the "current user" (this grants access to the user's desktop context as well as any private/unshared disks they insert)
-* The application is run with "high privileges" (this allows a hook into the Windows API)
+This repo contains the Visual Studio Project for the monitoring binary as well as a Splunk TA to handle distribution, maintenance, and persistence. 
 
 ## USB Monitoring
 USB device insertion and removal is monitored via the __InstanceCreationEvent and __InstanceDeletionEvent objects within WQL, with watching implemented with a ManagementEventWatcher. Any time a USB is inserted or removed the application logs some metadata. An example of the output is:
@@ -54,7 +51,9 @@ You can configure the tool using SplunkActivityMonitor.exe.config. This XML file
 * Enable debug logging
 
 ## Uninstalling / Removal
-If you are running the standalone binary, just kill the task. If you have used the Splunk TA, you'll need to delete the scheduled task as well as kill the task and uninstalling the TA. 
+If you are running the standalone binary, just kill the task. 
+
+If you have used the Splunk TA, you'll need to delete the scheduled task, kill the task, and uninstall the TA. 
 
 ## Contact
 andrew@atunnecliffe.com
