@@ -2,7 +2,7 @@
 
 This application is capable of monitoring Foreground Window Changes and USB device insert/removal as well as device->USB file transfers and logging them to Splunk. 
 
-There is also a Splunk TA for running this application that can handle installation / maintenance. 
+This repo contains the Visual Studio Project for the monitoring binary as well as a Splunk TA to handle distribution, maintenance, and persistence. 
 
 ## USB Monitoring
 USB device insertion and removal is monitored via the __InstanceCreationEvent and __InstanceDeletionEvent objects within WQL, with watching implemented with a ManagementEventWatcher. Any time a USB is inserted or removed the application logs some metadata. An example of the output is:
