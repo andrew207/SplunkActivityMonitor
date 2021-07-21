@@ -6,3 +6,4 @@ C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\
 C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.GenerateResource.cache
 C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.exe
 C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.pdb
+C:\Users\andre\Documents\GitHub\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csprojAssemblyReference.cache

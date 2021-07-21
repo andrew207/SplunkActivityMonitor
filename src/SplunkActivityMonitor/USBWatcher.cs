@@ -64,7 +64,7 @@ namespace SplunkActivityMonitor
         private static string[] GetHashes(string input)
         {
             string ssha = "unable to compute";
-            string smd5 = "unable to compute";
+            string ssh1 = "unable to compute";
             try
             {
                 using (var sha = SHA256.Create())
@@ -73,12 +73,12 @@ namespace SplunkActivityMonitor
                     using (var stream = File.OpenRead(input))
                     {
                         ssha = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "");
-                        smd5 = BitConverter.ToString(sh.ComputeHash(stream)).Replace("-", "");
+                        ssh1 = BitConverter.ToString(sh.ComputeHash(stream)).Replace("-", "");
                     }
                 }
             }
             catch (Exception) { }
-            return new string[] { ssha, smd5 };
+            return new string[] { ssha, ssh1 };
         }
 
         private static void OnAction(object sender, FileSystemEventArgs e)
@@ -95,7 +95,7 @@ namespace SplunkActivityMonitor
             string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
                 + ", \"fullpath\": \"" + e.FullPath + "\""
                 + ", \"name\": \"" + e.Name + "\""
-                + ", \"md5\": \"" + m[1] + "\""
+                + ", \"sha1\": \"" + m[1] + "\""
                 + ", \"sha256\": \"" + m[0] + "\""
                 + ", \"time\": \"" + sqlFormattedDate + "\"";
             res = res.Replace(@"\", @"\\");
