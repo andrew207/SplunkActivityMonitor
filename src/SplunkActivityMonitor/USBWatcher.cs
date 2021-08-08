@@ -86,41 +86,47 @@ namespace SplunkActivityMonitor
             // Sleep for a little bit
             // 1. Wait for a file operation to complete, or we get "file in use" error
             // 2. Side-benefit of not being able to get hashes of files that are huge (this would use too much compute)
-            string[] m = new string[] { "unable to compute", "unable to compute" };
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
-            Thread.Sleep(3000);
-            try { m = GetHashes(e.FullPath); }
-            catch (IOException) { }
-            string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
-                + ", \"fullpath\": \"" + e.FullPath + "\""
-                + ", \"name\": \"" + e.Name + "\""
-                + ", \"sha1\": \"" + m[1] + "\""
-                + ", \"sha256\": \"" + m[0] + "\""
-                + ", \"time\": \"" + sqlFormattedDate + "\"";
-            res = res.Replace(@"\", @"\\");
-            Debug.WriteLine(res);
-            Monitor.w.StartWebRequest(res, false, true);
+            new Thread(() =>
+            {
+                string[] m = new string[] { "unable to compute", "unable to compute" };
+                DateTime myDateTime = DateTime.Now;
+                string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
+                Thread.Sleep(3000);
+                try { m = GetHashes(e.FullPath); }
+                catch (IOException) { }
+                string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
+                    + ", \"fullpath\": \"" + e.FullPath + "\""
+                    + ", \"name\": \"" + e.Name + "\""
+                    + ", \"sha1\": \"" + m[1] + "\""
+                    + ", \"sha256\": \"" + m[0] + "\""
+                    + ", \"time\": \"" + sqlFormattedDate + "\"";
+                res = res.Replace(@"\", @"\\");
+                Debug.WriteLine(res);
+                Monitor.w.StartWebRequest(res, false, true);
+            }).Start();
         }
 
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
-            string[] m = new string[] { "unable to compute", "unable to compute" };
-            DateTime myDateTime = DateTime.Now;
-            string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
-            Thread.Sleep(3000);
-            try { m = GetHashes(e.FullPath); }
-            catch (IOException) { }
-            string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
-                + ", \"oldpath\": \"" + e.OldFullPath + "\""
-                + ", \"fullpath\": \"" + e.FullPath + "\""
-                + ", \"name\": \"" + e.Name + "\""
-                + ", \"md5\": \"" + m[1] + "\""
-                + ", \"sha256\": \"" + m[0] + "\""
-                + ", \"time\": \"" + sqlFormattedDate + "\"";
-            res = res.Replace(@"\", @"\\");
-            Debug.WriteLine(res);
-            Monitor.w.StartWebRequest(res, false, true);
+            new Thread(() =>
+            {
+                string[] m = new string[] { "unable to compute", "unable to compute" };
+                DateTime myDateTime = DateTime.Now;
+                string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
+                Thread.Sleep(3000);
+                try { m = GetHashes(e.FullPath); }
+                catch (IOException) { }
+                string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
+                    + ", \"oldpath\": \"" + e.OldFullPath + "\""
+                    + ", \"fullpath\": \"" + e.FullPath + "\""
+                    + ", \"name\": \"" + e.Name + "\""
+                    + ", \"md5\": \"" + m[1] + "\""
+                    + ", \"sha256\": \"" + m[0] + "\""
+                    + ", \"time\": \"" + sqlFormattedDate + "\"";
+                res = res.Replace(@"\", @"\\");
+                Debug.WriteLine(res);
+                Monitor.w.StartWebRequest(res, false, true);
+            }).Start();
         }
 
         private static void OnError(object sender, ErrorEventArgs e) =>
