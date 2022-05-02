@@ -4,6 +4,8 @@ This application is capable of monitoring Foreground Window Changes and USB devi
 
 This repo contains the Visual Studio Project for the monitoring binary as well as a Splunk TA to handle distribution, maintenance, and persistence. 
 
+Tested and working on Windows 10 / Server 2016 and Windows 11 / Server 2019. 
+
 ## USB Monitoring
 USB device insertion and removal is monitored via the __InstanceCreationEvent and __InstanceDeletionEvent objects within WQL, with watching implemented with a ManagementEventWatcher. Any time a USB is inserted or removed the application logs some metadata. An example of the output is:
 
