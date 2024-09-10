@@ -1,0 +1,12 @@
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Debug\SplunkActivityMonitor.exe.config
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Debug\SplunkActivityMonitor.exe
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Debug\SplunkActivityMonitor.pdb
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.csproj.AssemblyReference.cache
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.Form1.resources
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.Properties.Resources.resources
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.csproj.GenerateResource.cache
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.csproj.CoreCompileInputs.cache
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.exe
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.pdb
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\Interop.Shell32.dll
+C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Debug\SplunkActivityMonitor.csproj.ResolveComReference.cache

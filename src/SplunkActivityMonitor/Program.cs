@@ -9,7 +9,6 @@ namespace SplunkActivityMonitor
     using System.IO;
     using System.Net;
     using System.Text;
-
     public static partial class Program
     {
         private static string Hostname = Dns.GetHostName();
