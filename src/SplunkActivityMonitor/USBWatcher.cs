@@ -112,7 +112,8 @@ namespace SplunkActivityMonitor
                     }
                 }
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 Debug.WriteLine(e.StackTrace);
                 Debug.WriteLine(e.Message);
                 Debug.WriteLine(e.ToString());
@@ -123,6 +124,11 @@ namespace SplunkActivityMonitor
             return res.ToArray();
         }
 
+        /// <summary>
+        /// Callback when (pretty much) anything other than rename happens
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void OnAction(object sender, FileSystemEventArgs e)
         {
             // Sleep for a little bit
@@ -162,6 +168,11 @@ namespace SplunkActivityMonitor
             }).Start();
         }
 
+        /// <summary>
+        /// Callback just for rename, because it provides us with an extra field for oldName
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void OnRenamed(object sender, RenamedEventArgs e)
         {
             new Thread(() =>
@@ -170,14 +181,28 @@ namespace SplunkActivityMonitor
                 DateTime myDateTime = DateTime.Now;
                 string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
                 Thread.Sleep(3000);
+
                 try { m = GetHashes(e.FullPath); }
                 catch (IOException) { }
+
+                // Must run in STAThread
+                string[] FileDetails = new string[2];
+                Thread thread = new Thread(() =>
+                {
+                    FileDetails = GetFileDetails(e.FullPath);
+                });
+                thread.SetApartmentState(ApartmentState.STA);
+                thread.Start();
+                thread.Join();
+
                 string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
                     + ", \"oldpath\": \"" + e.OldFullPath + "\""
                     + ", \"fullpath\": \"" + e.FullPath + "\""
                     + ", \"name\": \"" + e.Name + "\""
                     + ", \"md5\": \"" + m[1] + "\""
                     + ", \"sha256\": \"" + m[0] + "\""
+                    + ", \"lastuser\": \"" + FileDetails[0] + "\""
+                    + ", \"size\": \"" + FileDetails[1] + "\""
                     + ", \"time\": \"" + sqlFormattedDate + "\"";
                 res = res.Replace(@"\", @"\\");
                 Debug.WriteLine(res);
