@@ -10,3 +10,15 @@ C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivity
 C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.CoreCompileInputs.cache
 C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.exe
 C:\Users\AndrewTunnecliffe\Source\Repos\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.pdb
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.exe.config
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.exe
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\bin\Release\SplunkActivityMonitor.pdb
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.AssemblyReference.cache
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\Interop.Shell32.dll
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.ResolveComReference.cache
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.Form1.resources
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.Properties.Resources.resources
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.GenerateResource.cache
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.csproj.CoreCompileInputs.cache
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.exe
+C:\Users\AndrewTunnecliffe\source\repos\andrew207\SplunkActivityMonitor\src\SplunkActivityMonitor\obj\Release\SplunkActivityMonitor.pdb
