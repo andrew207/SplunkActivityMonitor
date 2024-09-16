@@ -100,7 +100,7 @@
 
             // If we are able to get the Title from the window send it, otherwise send [blank].
             if (NativeMethods.GetWindowText(handle, buff, nChars) > 0)
-                return "\"time\":\"" + sqlFormattedDate + "\", \"user\":\"" + userName + "\", \"title\":\"" + buff.ToString() + "\", \"directory\":\"" + directory.Replace(@"\", @"\\") + "\", \"pid\":\"" + processId + "\", \"name\":\"" + name + "\", \"version\":\"" + version + "\"";
+                return "\"time\":\"" + sqlFormattedDate + "\", \"user\":\"" + userName + "\", \"title\":\"" + buff.ToString().Replace(@"\", @"\\") + "\", \"directory\":\"" + directory.Replace(@"\", @"\\") + "\", \"pid\":\"" + processId + "\", \"name\":\"" + name + "\", \"version\":\"" + version + "\"";
             else
                 return "\"time\":\"" + sqlFormattedDate + "\", \"user\":\"" + userName + "\", \"title\":\"[blank]\", \"directory\":\"" + directory.Replace(@"\", @"\\") + "\", \"pid\":\"" + processId + "\", \"name\":\"" + name + "\", \"version\":\"" + version + "\"";
         }
