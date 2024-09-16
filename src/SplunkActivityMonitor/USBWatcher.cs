@@ -65,24 +65,21 @@ namespace SplunkActivityMonitor
         /// </summary>
         /// <param name="input">any file FullPath as a string</param>
         /// <returns></returns>
-        private static string[] GetHashes(string input)
+        private static string GetHashes(string input)
         {
             string ssha = "unable to compute";
-            string ssh1 = "unable to compute";
             try
             {
                 using (var sha = SHA256.Create())
-                using (var sh = SHA1.Create())
                 {
                     using (var stream = File.OpenRead(input))
                     {
                         ssha = BitConverter.ToString(sha.ComputeHash(stream)).Replace("-", "");
-                        ssh1 = BitConverter.ToString(sh.ComputeHash(stream)).Replace("-", "");
                     }
                 }
             }
             catch (Exception) { }
-            return new string[] { ssha, ssh1 };
+            return ssha;
         }
 
         /// <summary>
@@ -136,7 +133,7 @@ namespace SplunkActivityMonitor
             // 2. Side-benefit of not being able to get hashes of files that are huge (this would use too much compute)
             new Thread(() =>
             {
-                string[] m = new string[] { "unable to compute", "unable to compute" };
+                string m = "unable to compute";
                 DateTime myDateTime = DateTime.Now;
                 string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
                 Thread.Sleep(3000);
@@ -157,8 +154,7 @@ namespace SplunkActivityMonitor
                 string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
                     + ", \"fullpath\": \"" + e.FullPath + "\""
                     + ", \"name\": \"" + e.Name + "\""
-                    + ", \"sha1\": \"" + m[1] + "\""
-                    + ", \"sha256\": \"" + m[0] + "\""
+                    + ", \"sha256\": \"" + m + "\""
                     + ", \"lastuser\": \"" + FileDetails[0] + "\""
                     + ", \"size\": \"" + FileDetails[1] + "\""
                     + ", \"time\": \"" + sqlFormattedDate + "\"";
@@ -177,7 +173,7 @@ namespace SplunkActivityMonitor
         {
             new Thread(() =>
             {
-                string[] m = new string[] { "unable to compute", "unable to compute" };
+                string m = "unable to compute";
                 DateTime myDateTime = DateTime.Now;
                 string sqlFormattedDate = myDateTime.ToString(Format).Replace(@"\", @"\\");
                 Thread.Sleep(3000);
@@ -199,8 +195,7 @@ namespace SplunkActivityMonitor
                     + ", \"oldpath\": \"" + e.OldFullPath + "\""
                     + ", \"fullpath\": \"" + e.FullPath + "\""
                     + ", \"name\": \"" + e.Name + "\""
-                    + ", \"md5\": \"" + m[1] + "\""
-                    + ", \"sha256\": \"" + m[0] + "\""
+                    + ", \"sha256\": \"" + m + "\""
                     + ", \"lastuser\": \"" + FileDetails[0] + "\""
                     + ", \"size\": \"" + FileDetails[1] + "\""
                     + ", \"time\": \"" + sqlFormattedDate + "\"";
