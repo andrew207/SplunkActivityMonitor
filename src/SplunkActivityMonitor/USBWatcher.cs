@@ -151,11 +151,20 @@ namespace SplunkActivityMonitor
                 thread.Start();
                 thread.Join();
 
+                // Get current username
+                string InteractiveUser = "unknown";
+                try
+                {
+                    InteractiveUser = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString().Replace(@"\", @"\\");
+                }
+                catch { }
+
                 string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
                     + ", \"fullpath\": \"" + e.FullPath + "\""
                     + ", \"name\": \"" + e.Name + "\""
                     + ", \"sha256\": \"" + m + "\""
                     + ", \"lastuser\": \"" + FileDetails[0] + "\""
+                    + ", \"interactiveuser\": \"" + InteractiveUser + "\""
                     + ", \"size\": \"" + FileDetails[1] + "\""
                     + ", \"time\": \"" + sqlFormattedDate + "\"";
                 res = res.Replace(@"\", @"\\");
@@ -191,12 +200,21 @@ namespace SplunkActivityMonitor
                 thread.Start();
                 thread.Join();
 
+                // Get current username
+                string InteractiveUser = "unknown";
+                try
+                {
+                    InteractiveUser = System.Security.Principal.WindowsIdentity.GetCurrent().Name.ToString().Replace(@"\", @"\\");
+                }
+                catch { }
+
                 string res = "\"action\": \"" + e.ChangeType.ToString() + "\""
                     + ", \"oldpath\": \"" + e.OldFullPath + "\""
                     + ", \"fullpath\": \"" + e.FullPath + "\""
                     + ", \"name\": \"" + e.Name + "\""
                     + ", \"sha256\": \"" + m + "\""
                     + ", \"lastuser\": \"" + FileDetails[0] + "\""
+                    + ", \"interactiveuser\": \"" + InteractiveUser + "\""
                     + ", \"size\": \"" + FileDetails[1] + "\""
                     + ", \"time\": \"" + sqlFormattedDate + "\"";
                 res = res.Replace(@"\", @"\\");
