@@ -92,11 +92,14 @@
       <title>Applications and Versions</title>
       <table>
         <search>
-          <query>index=* sourcetype=WindowsActivityMonitor:WindowChange | stats count values(title) as titles by user, name, directory</query>
+          <query>index=* sourcetype=WindowsActivityMonitor:WindowChange | stats count values(title) as titles values(version) min(_time) as first_seen, max(_time) as last_seen by user, name, directory
+| eval first_seen = strftime(first_seen, "%Y-%m-%d %H:%M:%S"), last_seen = strftime(last_seen, "%Y-%m-%d %H:%M:%S")
+| sort 0 - count</query>
           <earliest>$token_time.earliest$</earliest>
           <latest>$token_time.latest$</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
@@ -105,11 +108,16 @@
       <title>USB Activity</title>
       <table>
         <search>
-          <query>index=* AND sourcetype=WindowsActivityMonitor:USB | dedup host fullpath, sha256 | table _time, host, action lastuser size fullpath sha1 sha256</query>
+          <query>index=* AND sourcetype=WindowsActivityMonitor:USB action=* 
+| fillnull host fullpath sha256 name deviceid value="" 
+``` dedup required as copy sometimes has double ups ```
+| dedup host name fullpath, sha256 
+| table _time, host, action, name lastuser size fullpath sha1 sha256, deviceid</query>
           <earliest>$token_time.earliest$</earliest>
           <latest>$token_time.latest$</latest>
         </search>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
